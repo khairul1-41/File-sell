@@ -35,15 +35,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onOpenDemo })
     addToCart(product, 'Commercial');
   };
 
-  const handleDemoClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (onOpenDemo && product.demoUrl) {
-      onOpenDemo(product.demoUrl);
-    } else if (product.demoUrl) {
-      window.open(product.demoUrl, '_blank', 'noopener,noreferrer');
-    }
-  };
-
   return (
     <div
       onClick={handleCardClick}
@@ -158,22 +149,24 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onOpenDemo })
           </div>
 
           {/* Action Button Row */}
-          <div className="grid grid-cols-3 gap-2 pt-1">
+          <div className="grid grid-cols-3 gap-1.5 sm:gap-2 pt-1">
             {product.demoUrl ? (
-              <button
-                type="button"
-                onClick={handleDemoClick}
-                className="flex items-center justify-center gap-1 py-2 px-2 text-xs font-semibold text-slate-700 hover:text-slate-950 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors cursor-pointer"
+              <a
+                href={product.demoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="flex items-center justify-center gap-1 py-2 px-1.5 sm:px-2 text-xs font-semibold text-slate-700 hover:text-slate-950 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors cursor-pointer min-h-[38px] sm:min-h-[40px] whitespace-nowrap"
                 title="Open Live Preview"
               >
                 <ExternalLink className="w-3.5 h-3.5" />
                 <span>Demo</span>
-              </button>
+              </a>
             ) : (
               <button
                 type="button"
                 onClick={handleCardClick}
-                className="flex items-center justify-center gap-1 py-2 px-2 text-xs font-semibold text-slate-700 hover:text-slate-950 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors cursor-pointer"
+                className="flex items-center justify-center gap-1 py-2 px-1.5 sm:px-2 text-xs font-semibold text-slate-700 hover:text-slate-950 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors cursor-pointer min-h-[38px] sm:min-h-[40px] whitespace-nowrap"
               >
                 <Eye className="w-3.5 h-3.5" />
                 <span>Preview</span>
@@ -183,7 +176,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onOpenDemo })
             <button
               type="button"
               onClick={handleCardClick}
-              className="flex items-center justify-center gap-1 py-2 px-2 text-xs font-semibold text-slate-700 hover:text-slate-950 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors cursor-pointer"
+              className="flex items-center justify-center gap-1 py-2 px-1.5 sm:px-2 text-xs font-semibold text-slate-700 hover:text-slate-950 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors cursor-pointer min-h-[38px] sm:min-h-[40px] whitespace-nowrap"
             >
               <span>Details</span>
             </button>
@@ -191,7 +184,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onOpenDemo })
             <button
               type="button"
               onClick={handleBuyNow}
-              className="flex items-center justify-center gap-1 py-2 px-2 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors shadow-xs cursor-pointer"
+              className="flex items-center justify-center gap-1 py-2 px-1.5 sm:px-2 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors shadow-xs cursor-pointer min-h-[38px] sm:min-h-[40px] whitespace-nowrap"
             >
               <ShoppingBag className="w-3.5 h-3.5" />
               <span>Buy</span>

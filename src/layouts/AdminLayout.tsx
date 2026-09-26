@@ -27,6 +27,7 @@ export const AdminLayout: React.FC = () => {
   const { adminUser, isAdminAuthenticated, customerUser } = useAuth();
   const { currentView, setCurrentView } = useMarket();
   const [currentAdminTab, setCurrentAdminTab] = useState<string>('dashboard');
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
   // ACCESS CONTROL CHECK 1:
   // If user is currently trying to view admin-login, render AdminLogin view
@@ -83,22 +84,27 @@ export const AdminLayout: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex font-sans selection:bg-indigo-500 selection:text-white">
-      {/* 1. Left Admin Sidebar (16 management sections, strictly admin-only) */}
+      {/* 1. Left Admin Sidebar (Responsive drawer on mobile/tablet, persistent on desktop) */}
       <AdminSidebar
         currentAdminTab={currentAdminTab}
         onSelectTab={(tabId) => {
           setCurrentAdminTab(tabId);
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }}
+        isOpenMobile={isMobileSidebarOpen}
+        onCloseMobile={() => setIsMobileSidebarOpen(false)}
       />
 
       {/* 2. Right Main Viewport */}
       <div className="flex-1 flex flex-col min-w-0">
-        {/* Top Admin Bar with Role Badge and Security Telemetry */}
-        <AdminTopBar currentAdminTab={currentAdminTab} />
+        {/* Top Admin Bar with Role Badge, Mobile Hamburger, and Security Telemetry */}
+        <AdminTopBar
+          currentAdminTab={currentAdminTab}
+          onOpenMobileSidebar={() => setIsMobileSidebarOpen(true)}
+        />
 
         {/* Dynamic Admin View */}
-        <main className="flex-1 p-6 sm:p-8 overflow-y-auto">
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
           {renderAdminView()}
         </main>
       </div>

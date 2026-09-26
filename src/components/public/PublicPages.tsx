@@ -100,7 +100,7 @@ export const BrowsePage: React.FC = () => {
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredProducts.map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}
@@ -184,6 +184,17 @@ export const AboutPage: React.FC = () => {
 };
 
 export const SupportPage: React.FC = () => {
+  const [submitted, setSubmitted] = React.useState(false);
+  const [email, setEmail] = React.useState('');
+  const [ref, setRef] = React.useState('');
+  const [message, setMessage] = React.useState('');
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || !message) return;
+    setSubmitted(true);
+  };
+
   return (
     <div className="bg-slate-50 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl mx-auto bg-white p-8 rounded-2xl border border-slate-200 shadow-2xs space-y-6">
@@ -199,44 +210,70 @@ export const SupportPage: React.FC = () => {
           </p>
         </div>
 
-        <form onSubmit={(e) => { e.preventDefault(); alert('Your support ticket has been received. Our team will contact your email.'); }} className="space-y-4 text-xs">
-          <div>
-            <label className="block text-slate-700 font-semibold mb-1">Your Registered Email</label>
-            <input
-              type="email"
-              required
-              placeholder="developer@gmail.com"
-              className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900"
-            />
+        {submitted ? (
+          <div className="p-6 rounded-xl bg-emerald-50 border border-emerald-200 text-center space-y-2">
+            <ShieldCheck className="w-8 h-8 text-emerald-600 mx-auto" />
+            <h3 className="text-sm font-bold text-emerald-950">Ticket Dispatched Successfully</h3>
+            <p className="text-xs text-emerald-800">
+              Ticket #SUP-{Date.now().toString().slice(-4)} has been logged. Our engineering response will be delivered to{' '}
+              <strong className="font-mono">{email}</strong> within 24 hours.
+            </p>
+            <button
+              onClick={() => {
+                setSubmitted(false);
+                setMessage('');
+              }}
+              className="mt-2 text-xs font-semibold text-emerald-700 hover:underline cursor-pointer"
+            >
+              Submit another inquiry
+            </button>
           </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-4 text-xs">
+            <div>
+              <label className="block text-slate-700 font-semibold mb-1">Your Registered Email</label>
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="developer@gmail.com"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900"
+              />
+            </div>
 
-          <div>
-            <label className="block text-slate-700 font-semibold mb-1">Purchased Order Reference / License Key</label>
-            <input
-              type="text"
-              required
-              placeholder="e.g. CM-2026-10492 or CM-LIC-XXXX"
-              className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 font-mono"
-            />
-          </div>
+            <div>
+              <label className="block text-slate-700 font-semibold mb-1">Purchased Order Reference / License Key</label>
+              <input
+                type="text"
+                required
+                value={ref}
+                onChange={(e) => setRef(e.target.value)}
+                placeholder="e.g. CM-2026-10492 or CM-LIC-XXXX"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 font-mono"
+              />
+            </div>
 
-          <div>
-            <label className="block text-slate-700 font-semibold mb-1">Describe Issue or Setup Question</label>
-            <textarea
-              rows={4}
-              required
-              placeholder="Describe error logs or Docker setup questions..."
-              className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900"
-            />
-          </div>
+            <div>
+              <label className="block text-slate-700 font-semibold mb-1">Describe Issue or Setup Question</label>
+              <textarea
+                rows={4}
+                required
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="Describe error logs or Docker setup questions..."
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900"
+              />
+            </div>
 
-          <button
-            type="submit"
-            className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg cursor-pointer"
-          >
-            Dispatch Ticket to Engineering Queue
-          </button>
-        </form>
+            <button
+              type="submit"
+              className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg cursor-pointer"
+            >
+              Dispatch Ticket to Engineering Queue
+            </button>
+          </form>
+        )}
       </div>
     </div>
   );

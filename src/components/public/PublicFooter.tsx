@@ -13,7 +13,7 @@ export const PublicFooter: React.FC = () => {
   };
 
   return (
-    <footer className="bg-slate-950 text-slate-400 border-t border-slate-800 text-xs">
+    <footer className="bg-slate-950 text-slate-400 border-t border-slate-800 text-xs w-full max-w-full overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
           {/* Brand Info */}
@@ -31,7 +31,7 @@ export const PublicFooter: React.FC = () => {
               The premier marketplace for production digital source code, full-stack boilerplates, and developer architectures. Direct regional checkout for Bangladesh & India.
             </p>
 
-            <div className="flex items-center gap-3 pt-2 text-slate-400">
+            <div className="flex flex-wrap items-center gap-2 pt-2 text-slate-400">
               <span className="text-[11px]">Accepted Gateways:</span>
               <span className="px-2 py-1 bg-slate-900 rounded border border-slate-800 text-[10px] text-slate-300 font-medium">
                 SSLCommerz (bKash/Nagad)

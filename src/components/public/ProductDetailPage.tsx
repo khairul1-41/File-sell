@@ -261,7 +261,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ product, o
         {/* Detailed Sections (Tabbed Navigation) */}
         <div className="bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-xs mb-16">
           {/* Tab Bar */}
-          <div className="border-b border-slate-200 bg-slate-50/50 flex overflow-x-auto">
+          <div className="border-b border-slate-200 bg-slate-50/50 flex overflow-x-auto px-2 sm:px-4">
             {[
               { id: 'overview', label: 'Overview' },
               { id: 'features', label: 'Features & Architecture' },
@@ -275,9 +275,9 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ product, o
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`px-5 py-3.5 text-xs font-semibold whitespace-nowrap transition-colors border-b-2 cursor-pointer ${
+                className={`px-3.5 sm:px-5 py-3 sm:py-3.5 text-xs font-semibold whitespace-nowrap transition-colors border-b-2 cursor-pointer min-h-[44px] flex items-center ${
                   activeTab === tab.id
-                    ? 'border-indigo-600 text-indigo-900 bg-white'
+                    ? 'border-indigo-600 text-indigo-900 bg-white shadow-2xs'
                     : 'border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-100/50'
                 }`}
               >

@@ -161,18 +161,18 @@ Extract your production archive and review README.md.`;
       />
 
       {/* Modal Card */}
-      <div className="relative w-full max-w-xl bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden z-10 animate-in fade-in zoom-in-95 duration-150">
+      <div className="relative w-full max-w-xl max-h-[92vh] bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden z-10 animate-in fade-in zoom-in-95 duration-150 flex flex-col">
         {/* Header */}
-        <div className="p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+        <div className="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50 shrink-0">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0">
               <Lock className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="text-sm font-bold text-slate-900">
+              <h3 className="text-xs sm:text-sm font-bold text-slate-900">
                 {step === 'SUCCESS' ? 'Order Confirmed & Delivered' : 'Secure Digital Checkout'}
               </h3>
-              <p className="text-[11px] text-slate-500">
+              <p className="text-[10px] sm:text-[11px] text-slate-500">
                 {country.name} · Local Gateway: {country.gateway}
               </p>
             </div>
@@ -188,7 +188,7 @@ Extract your production archive and review README.md.`;
         </div>
 
         {/* Modal Body */}
-        <div className="p-6">
+        <div className="p-4 sm:p-6 overflow-y-auto flex-1">
           {/* STEP 1: CUSTOMER DETAILS */}
           {step === 'DETAILS' && (
             <form onSubmit={handleDetailsSubmit} className="space-y-4">

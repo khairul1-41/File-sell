@@ -14,7 +14,7 @@ export const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <div className="min-h-screen flex flex-col bg-white text-slate-900 selection:bg-indigo-500 selection:text-white">
+    <div className="min-h-screen flex flex-col bg-white text-slate-900 selection:bg-indigo-500 selection:text-white w-full max-w-full overflow-x-hidden">
       {/* Strict Public Customer Header - Zero Admin Privileges Expose */}
       <PublicHeader onOpenMobileMenu={() => setIsMobileMenuOpen(true)} />
 

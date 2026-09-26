@@ -20,6 +20,7 @@ import {
   Lock,
   Code2,
   ChevronRight,
+  X,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
@@ -53,13 +54,27 @@ const SIDEBAR_ITEMS: AdminNavSection[] = [
 interface AdminSidebarProps {
   currentAdminTab: string;
   onSelectTab: (tabId: string) => void;
+  isOpenMobile?: boolean;
+  onCloseMobile?: () => void;
 }
 
-export const AdminSidebar: React.FC<AdminSidebarProps> = ({ currentAdminTab, onSelectTab }) => {
+export const AdminSidebar: React.FC<AdminSidebarProps> = ({
+  currentAdminTab,
+  onSelectTab,
+  isOpenMobile = false,
+  onCloseMobile,
+}) => {
   const { adminUser, hasRole } = useAuth();
 
-  return (
-    <aside className="w-64 bg-slate-950 border-r border-slate-800 flex flex-col h-screen sticky top-0 shrink-0 select-none">
+  const handleItemClick = (id: string) => {
+    onSelectTab(id);
+    if (onCloseMobile) {
+      onCloseMobile();
+    }
+  };
+
+  const sidebarContent = (
+    <div className="flex flex-col h-full bg-slate-950 text-slate-300 w-64 select-none">
       {/* Brand Header */}
       <div className="h-16 border-b border-slate-800 px-5 flex items-center justify-between">
         <div className="flex items-center gap-2.5">
@@ -76,9 +91,20 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ currentAdminTab, onS
           </div>
         </div>
 
-        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-400">
-          v2.6
-        </span>
+        <div className="flex items-center gap-2">
+          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-400">
+            v2.6
+          </span>
+          {onCloseMobile && (
+            <button
+              onClick={onCloseMobile}
+              className="lg:hidden p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+              aria-label="Close sidebar"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Navigation List */}
@@ -97,8 +123,8 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ currentAdminTab, onS
           return (
             <button
               key={item.id}
-              onClick={() => onSelectTab(item.id)}
-              className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-colors cursor-pointer ${
+              onClick={() => handleItemClick(item.id)}
+              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition-colors cursor-pointer min-h-[38px] ${
                 isActive
                   ? 'bg-indigo-600 text-white shadow-xs'
                   : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
@@ -137,6 +163,30 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ currentAdminTab, onS
           </p>
         </div>
       </div>
-    </aside>
+    </div>
+  );
+
+  return (
+    <>
+      {/* Desktop Persistent Sidebar (>= 1024px) */}
+      <aside className="hidden lg:flex w-64 border-r border-slate-800 h-screen sticky top-0 shrink-0">
+        {sidebarContent}
+      </aside>
+
+      {/* Mobile/Tablet Slide-over Drawer (< 1024px) */}
+      {isOpenMobile && (
+        <div className="fixed inset-0 z-50 lg:hidden flex">
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-slate-950/80 backdrop-blur-xs transition-opacity"
+            onClick={onCloseMobile}
+          />
+          {/* Drawer container */}
+          <div className="relative z-10 shadow-2xl h-full animate-in slide-in-from-left duration-200">
+            {sidebarContent}
+          </div>
+        </div>
+      )}
+    </>
   );
 };

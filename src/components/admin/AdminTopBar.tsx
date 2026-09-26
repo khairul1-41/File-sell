@@ -8,15 +8,17 @@ import {
   ChevronDown,
   User,
   CheckCircle,
+  Menu,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useMarket } from '../../context/MarketContext';
 
 interface AdminTopBarProps {
   currentAdminTab: string;
+  onOpenMobileSidebar?: () => void;
 }
 
-export const AdminTopBar: React.FC<AdminTopBarProps> = ({ currentAdminTab }) => {
+export const AdminTopBar: React.FC<AdminTopBarProps> = ({ currentAdminTab, onOpenMobileSidebar }) => {
   const { adminUser, adminLogout } = useAuth();
   const { setCurrentView } = useMarket();
 
@@ -27,25 +29,25 @@ export const AdminTopBar: React.FC<AdminTopBarProps> = ({ currentAdminTab }) => 
     switch (role) {
       case 'SUPER_ADMIN':
         return (
-          <span className="px-2 py-0.5 rounded-md text-[10px] font-extrabold tracking-wider bg-purple-500/20 text-purple-300 border border-purple-500/30 font-mono uppercase">
+          <span className="px-2 py-0.5 rounded-md text-[10px] font-extrabold tracking-wider bg-purple-500/20 text-purple-300 border border-purple-500/30 font-mono uppercase whitespace-nowrap">
             SUPER ADMIN
           </span>
         );
       case 'ADMIN':
         return (
-          <span className="px-2 py-0.5 rounded-md text-[10px] font-extrabold tracking-wider bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-mono uppercase">
+          <span className="px-2 py-0.5 rounded-md text-[10px] font-extrabold tracking-wider bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-mono uppercase whitespace-nowrap">
             ADMIN
           </span>
         );
       case 'SUPPORT_STAFF':
         return (
-          <span className="px-2 py-0.5 rounded-md text-[10px] font-extrabold tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-mono uppercase">
+          <span className="px-2 py-0.5 rounded-md text-[10px] font-extrabold tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-mono uppercase whitespace-nowrap">
             STAFF / SUPPORT
           </span>
         );
       default:
         return (
-          <span className="px-2 py-0.5 rounded-md text-[10px] font-extrabold tracking-wider bg-slate-500/20 text-slate-300 border border-slate-500/30 font-mono uppercase">
+          <span className="px-2 py-0.5 rounded-md text-[10px] font-extrabold tracking-wider bg-slate-500/20 text-slate-300 border border-slate-500/30 font-mono uppercase whitespace-nowrap">
             OPERATOR
           </span>
         );
@@ -63,30 +65,40 @@ export const AdminTopBar: React.FC<AdminTopBarProps> = ({ currentAdminTab }) => 
   };
 
   return (
-    <header className="h-16 bg-slate-900 border-b border-slate-800 px-4 sm:px-6 flex items-center justify-between gap-4 sticky top-0 z-30">
-      {/* Left: Breadcrumbs / Section Title */}
-      <div className="flex items-center gap-3">
-        <span className="text-xs font-mono text-slate-400 uppercase tracking-wider hidden sm:inline">
+    <header className="h-16 bg-slate-900 border-b border-slate-800 px-3 sm:px-6 flex items-center justify-between gap-2 sm:gap-4 sticky top-0 z-30">
+      {/* Left: Mobile Menu Trigger + Breadcrumbs / Section Title */}
+      <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+        {onOpenMobileSidebar && (
+          <button
+            onClick={onOpenMobileSidebar}
+            className="lg:hidden p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors shrink-0"
+            aria-label="Open operational menu"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+        )}
+
+        <span className="text-xs font-mono text-slate-400 uppercase tracking-wider hidden md:inline shrink-0">
           Admin Console /
         </span>
-        <h2 className="text-sm font-bold text-white capitalize">
+        <h2 className="text-xs sm:text-sm font-bold text-white capitalize truncate">
           {currentAdminTab.replace('-', ' ')}
         </h2>
       </div>
 
       {/* Center: Admin Search */}
-      <div className="hidden md:flex items-center max-w-xs w-full relative">
+      <div className="hidden xl:flex items-center max-w-xs w-full relative">
         <input
           type="text"
-          placeholder="Search orders, customers, licenses, logs..."
+          placeholder="Search orders, customers, logs..."
           className="w-full pl-8 pr-3 py-1.5 text-xs bg-slate-950 border border-slate-800 rounded-lg text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-colors"
         />
         <Search className="w-3.5 h-3.5 text-slate-500 absolute left-2.5 top-1/2 -translate-y-1/2" />
       </div>
 
       {/* Right: Security Status, Notifications, Role Badge & Profile */}
-      <div className="flex items-center gap-3">
-        {/* Security Status (Visible inside admin panel only) */}
+      <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
+        {/* Security Status (Visible on desktop) */}
         <div className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-950 border border-slate-800 text-[11px] font-mono text-emerald-400">
           <ShieldCheck className="w-3.5 h-3.5" />
           <span>Security Guard Active</span>
@@ -95,7 +107,7 @@ export const AdminTopBar: React.FC<AdminTopBarProps> = ({ currentAdminTab }) => 
         {/* View Public Storefront Link */}
         <button
           onClick={handleViewStorefront}
-          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+          className="flex items-center gap-1.5 px-2 sm:px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
           title="Preview public marketplace"
         >
           <ExternalLink className="w-3.5 h-3.5" />
@@ -115,7 +127,7 @@ export const AdminTopBar: React.FC<AdminTopBarProps> = ({ currentAdminTab }) => 
 
           {isNotificationsOpen && (
             <div
-              className="absolute right-0 mt-2 w-80 bg-slate-900 border border-slate-800 rounded-xl shadow-2xl py-2 z-50 animate-in fade-in"
+              className="absolute right-0 mt-2 w-72 sm:w-80 bg-slate-900 border border-slate-800 rounded-xl shadow-2xl py-2 z-50 animate-in fade-in"
               onMouseLeave={() => setIsNotificationsOpen(false)}
             >
               <div className="px-4 py-2 border-b border-slate-800 flex items-center justify-between">
@@ -145,29 +157,29 @@ export const AdminTopBar: React.FC<AdminTopBarProps> = ({ currentAdminTab }) => 
 
         {/* Admin Profile & Role Badge */}
         {adminUser && (
-          <div className="relative pl-2 border-l border-slate-800 flex items-center gap-2">
+          <div className="relative pl-1.5 sm:pl-2 border-l border-slate-800 flex items-center gap-1.5 sm:gap-2">
             <button
               onClick={() => setIsProfileOpen(!isProfileOpen)}
-              className="flex items-center gap-2 text-left hover:opacity-90 transition-opacity cursor-pointer"
+              className="flex items-center gap-2 text-left hover:opacity-90 transition-opacity cursor-pointer p-1"
             >
               <img
                 src={adminUser.avatar}
                 alt={adminUser.name}
                 referrerPolicy="no-referrer"
-                className="w-7 h-7 rounded-lg object-cover border border-slate-700"
+                className="w-7 h-7 rounded-lg object-cover border border-slate-700 shrink-0"
               />
-              <div className="hidden sm:block">
+              <div className="hidden md:block">
                 <div className="flex items-center gap-1.5">
                   <span className="text-xs font-bold text-white truncate max-w-[120px]">
                     {adminUser.name}
                   </span>
                   {getRoleBadge(adminUser.role)}
                 </div>
-                <span className="text-[10px] text-slate-400 font-mono block -mt-0.5">
+                <span className="text-[10px] text-slate-400 font-mono block -mt-0.5 truncate max-w-[140px]">
                   {adminUser.email}
                 </span>
               </div>
-              <ChevronDown className="w-3.5 h-3.5 text-slate-500" />
+              <ChevronDown className="w-3.5 h-3.5 text-slate-500 hidden sm:block" />
             </button>
 
             {isProfileOpen && (

@@ -206,7 +206,7 @@ const MarketplaceApp: React.FC = () => {
               </button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {products.filter((p) => p.featured).map((prod) => (
                 <ProductCard key={prod.id} product={prod} />
               ))}
@@ -224,7 +224,7 @@ const MarketplaceApp: React.FC = () => {
               </h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {products.filter((p) => p.trending).map((prod) => (
                 <ProductCard key={prod.id} product={prod} />
               ))}
