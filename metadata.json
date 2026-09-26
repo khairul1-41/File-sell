@@ -1,0 +1,7 @@
+{
+  "name": "CodeMarket - Digital Source Code Marketplace",
+  "description": "Premium verified source code marketplace for developers, SaaS founders, and engineering teams with instant delivery and commercial licenses.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
